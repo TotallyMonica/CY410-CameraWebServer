@@ -62,6 +62,8 @@ static int8_t recognition_enabled = 0;
 static int8_t is_enrolling = 0;
 static face_id_list id_list = {0};
 
+// short
+// Ethan start
 static ra_filter_t * ra_filter_init(ra_filter_t * filter, size_t sample_size){
     memset(filter, 0, sizeof(ra_filter_t));
 
@@ -74,7 +76,10 @@ static ra_filter_t * ra_filter_init(ra_filter_t * filter, size_t sample_size){
     filter->size = sample_size;
     return filter;
 }
+// Ethan end
 
+// short
+// Ethan start
 static int ra_filter_run(ra_filter_t * filter, int value){
     if(!filter->values){
         return value;
@@ -89,7 +94,10 @@ static int ra_filter_run(ra_filter_t * filter, int value){
     }
     return filter->sum / filter->count;
 }
+// Ethan end
 
+// Short
+// Cody start
 static void rgb_print(dl_matrix3du_t *image_matrix, uint32_t color, const char * str){
     fb_data_t fb;
     fb.width = image_matrix->w;
@@ -99,7 +107,10 @@ static void rgb_print(dl_matrix3du_t *image_matrix, uint32_t color, const char *
     fb.format = FB_BGR888;
     fb_gfx_print(&fb, (fb.width - (strlen(str) * 14)) / 2, 10, color, str);
 }
+// Cody end
 
+// Short
+// Monica start
 static int rgb_printf(dl_matrix3du_t *image_matrix, uint32_t color, const char *format, ...){
     char loc_buf[64];
     char * temp = loc_buf;
@@ -124,7 +135,10 @@ static int rgb_printf(dl_matrix3du_t *image_matrix, uint32_t color, const char *
     }
     return len;
 }
+// Monica end
 
+// short
+// Ethan start
 static void draw_face_boxes(dl_matrix3du_t *image_matrix, box_array_t *boxes, int face_id){
     int x, y, w, h, i;
     uint32_t color = FACE_COLOR_YELLOW;
@@ -160,7 +174,10 @@ static void draw_face_boxes(dl_matrix3du_t *image_matrix, box_array_t *boxes, in
 #endif
     }
 }
+// Ethan end
 
+// short
+// Abby start
 static int run_face_recognition(dl_matrix3du_t *image_matrix, box_array_t *net_boxes){
     dl_matrix3du_t *aligned_face = NULL;
     int matched_id = 0;
@@ -202,7 +219,10 @@ static int run_face_recognition(dl_matrix3du_t *image_matrix, box_array_t *net_b
     dl_matrix3du_free(aligned_face);
     return matched_id;
 }
+// Abby end
 
+// short
+// Matthew start
 static size_t jpg_encode_stream(void * arg, size_t index, const void* data, size_t len){
     jpg_chunking_t *j = (jpg_chunking_t *)arg;
     if(!index){
@@ -214,7 +234,10 @@ static size_t jpg_encode_stream(void * arg, size_t index, const void* data, size
     j->len += len;
     return len;
 }
+// Matthew end
 
+// long
+// Matthew start
 static esp_err_t capture_handler(httpd_req_t *req){
     camera_fb_t * fb = NULL;
     esp_err_t res = ESP_OK;
@@ -301,7 +324,10 @@ static esp_err_t capture_handler(httpd_req_t *req){
     Serial.printf("FACE: %uB %ums %s%d\n", (uint32_t)(jchunk.len), (uint32_t)((fr_end - fr_start)/1000), detected?"DETECTED ":"", face_id);
     return res;
 }
+// Matthew end
 
+// long
+// Cody start
 static esp_err_t stream_handler(httpd_req_t *req){
     camera_fb_t * fb = NULL;
     esp_err_t res = ESP_OK;
@@ -448,7 +474,10 @@ static esp_err_t stream_handler(httpd_req_t *req){
     last_frame = 0;
     return res;
 }
+// Cody end
 
+// long
+// Ethan start
 static esp_err_t cmd_handler(httpd_req_t *req){
     char*  buf;
     size_t buf_len;
@@ -535,7 +564,10 @@ static esp_err_t cmd_handler(httpd_req_t *req){
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, NULL, 0);
 }
+// Ethan end
 
+// Short-ish
+// Monica start
 static esp_err_t status_handler(httpd_req_t *req){
     static char json_response[1024];
 
@@ -577,7 +609,10 @@ static esp_err_t status_handler(httpd_req_t *req){
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, json_response, strlen(json_response));
 }
+// Monica end
 
+// Short
+// Monica start
 static esp_err_t index_handler(httpd_req_t *req){
     httpd_resp_set_type(req, "text/html");
     httpd_resp_set_hdr(req, "Content-Encoding", "gzip");
@@ -588,9 +623,12 @@ static esp_err_t index_handler(httpd_req_t *req){
     return httpd_resp_send(req, (const char *)index_ov2640_html_gz, index_ov2640_html_gz_len);
 }
 
+// long
+// Abby start
 void startCameraServer(){
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
 
+    // Create the file handler for / endpoint
     httpd_uri_t index_uri = {
         .uri       = "/",
         .method    = HTTP_GET,
@@ -598,6 +636,7 @@ void startCameraServer(){
         .user_ctx  = NULL
     };
 
+    // Create the endpoint for /status endpoint
     httpd_uri_t status_uri = {
         .uri       = "/status",
         .method    = HTTP_GET,
@@ -660,3 +699,4 @@ void startCameraServer(){
         httpd_register_uri_handler(stream_httpd, &stream_uri);
     }
 }
+// Abby end
