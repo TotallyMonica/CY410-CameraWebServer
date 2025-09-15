@@ -100,6 +100,11 @@ static int ra_filter_run(ra_filter_t * filter, int value){
 
 // Short
 // Cody start
+
+// Draws a centered RGB string onto an image matrix using the specified color.
+// Converts the image matrix to a framebuffer format and uses the graphics library to render text.
+// Useful for overlaying status messages or alerts directly onto camera frames.
+
 static void rgb_print(dl_matrix3du_t *image_matrix, uint32_t color, const char * str){
     fb_data_t fb;
     fb.width = image_matrix->w;
@@ -330,6 +335,12 @@ static esp_err_t capture_handler(httpd_req_t *req){
 
 // long
 // Cody start
+
+// Handles the HTTP stream endpoint for live MJPEG video feed from the camera.
+// Captures frames continuously, optionally performs face detection and recognition,
+// overlays bounding boxes and messages, compresses to JPEG, and sends multipart chunks over HTTP.
+// Also logs detailed timing metrics for performance monitoring.
+
 static esp_err_t stream_handler(httpd_req_t *req){
     camera_fb_t * fb = NULL;
     esp_err_t res = ESP_OK;
