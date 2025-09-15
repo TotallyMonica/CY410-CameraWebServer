@@ -65,7 +65,7 @@ static int8_t is_enrolling = 0;
 static face_id_list id_list = {0};
 
 // short
-// Ethan start
+// Ethan Horton: This code block initializes a running filter system to make the data easier to read by humans 
 static ra_filter_t * ra_filter_init(ra_filter_t * filter, size_t sample_size){
     memset(filter, 0, sizeof(ra_filter_t));
 
@@ -81,7 +81,7 @@ static ra_filter_t * ra_filter_init(ra_filter_t * filter, size_t sample_size){
 // Ethan end
 
 // short
-// Ethan start
+// Ethan Horton: This code block is part of the running filter system initialized by the previous block, which makes the data easier to read by humans
 static int ra_filter_run(ra_filter_t * filter, int value){
     if(!filter->values){
         return value;
