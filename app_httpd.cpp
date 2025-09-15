@@ -185,6 +185,9 @@ static void draw_face_boxes(dl_matrix3du_t *image_matrix, box_array_t *boxes, in
 
 // short
 // Abby start
+// Runs the face recognition/enrollment process on a detected face. It takes an image of the face and then either
+// enrolls the face or tries to match it with an already enrolled face. Afterwards it shows results and an ID if it
+// matches, otherwise it returns -1.
 static int run_face_recognition(dl_matrix3du_t *image_matrix, box_array_t *net_boxes){
     dl_matrix3du_t *aligned_face = NULL;
     int matched_id = 0;
@@ -637,6 +640,9 @@ static esp_err_t index_handler(httpd_req_t *req){
 
 // long
 // Abby start
+// Initializes and starts the camera as well as sets up HTTP endpoints depending on what is required.
+// Here the HTTP endpoints are for image capture, control, and the ability to configure face detection options.
+// It also starts up the stream web servers.
 void startCameraServer(){
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
 
