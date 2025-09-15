@@ -11,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+// This logic block ensures that the necessary librarys are included in the program so it can run properly
 #include "esp_http_server.h"
 #include "esp_timer.h"
 #include "esp_camera.h"
@@ -476,8 +478,7 @@ static esp_err_t stream_handler(httpd_req_t *req){
 }
 // Cody end
 
-// long
-// Ethan start
+// Ethan Horton: This allows users to remotely configure camera settings such as brightness, contrast, and resolution by sending HTTP requests with query parameters.
 static esp_err_t cmd_handler(httpd_req_t *req){
     char*  buf;
     size_t buf_len;
