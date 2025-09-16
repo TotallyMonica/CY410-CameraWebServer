@@ -233,6 +233,9 @@ static int run_face_recognition(dl_matrix3du_t *image_matrix, box_array_t *net_b
 
 // short
 // Matthew start
+// Streams the JPEG encoder to output HTTP chunks for an image.
+// Tracks the total bytes sent to the client
+// Returns the length on success that determines the continuation of streaming
 static size_t jpg_encode_stream(void * arg, size_t index, const void* data, size_t len){
     jpg_chunking_t *j = (jpg_chunking_t *)arg;
     if(!index){
@@ -248,6 +251,10 @@ static size_t jpg_encode_stream(void * arg, size_t index, const void* data, size
 
 // long
 // Matthew start
+// Grabs a photo from the camera.
+// If facial features are off or the file is too large, it makes sure the file is a JPEG and sends it.
+// If Facial features are on, then it converts the photo to RGB, detects faces, draws boxes, reduces file size, and streams it.
+// Logs timing or size metrics and returns the ESP status.
 static esp_err_t capture_handler(httpd_req_t *req){
     camera_fb_t * fb = NULL;
     esp_err_t res = ESP_OK;
