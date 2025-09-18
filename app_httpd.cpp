@@ -590,6 +590,7 @@ static esp_err_t cmd_handler(httpd_req_t *req){
 
 // Short-ish
 // Monica start
+// Sends the current data for the camera's configuration
 static esp_err_t status_handler(httpd_req_t *req){
     static char json_response[1024];
 
@@ -628,6 +629,8 @@ static esp_err_t status_handler(httpd_req_t *req){
     p+=sprintf(p, "\"face_recognize\":%u", recognition_enabled);
     *p++ = '}';
     *p++ = 0;
+
+    // Create the required headers for the data to be sent
     httpd_resp_set_type(req, "application/json");
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, json_response, strlen(json_response));
@@ -636,6 +639,7 @@ static esp_err_t status_handler(httpd_req_t *req){
 
 // Short
 // Monica start
+// Send the homepage for the camera web server to the client
 static esp_err_t index_handler(httpd_req_t *req){
     httpd_resp_set_type(req, "text/html");
     httpd_resp_set_hdr(req, "Content-Encoding", "gzip");
