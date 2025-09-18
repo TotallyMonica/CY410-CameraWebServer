@@ -118,6 +118,8 @@ static void rgb_print(dl_matrix3du_t *image_matrix, uint32_t color, const char *
 
 // Short
 // Monica start
+// Create and send the box to draw the detected face
+// Wrapper for rgb_print()
 static int rgb_printf(dl_matrix3du_t *image_matrix, uint32_t color, const char *format, ...){
     char loc_buf[64];
     char * temp = loc_buf;
