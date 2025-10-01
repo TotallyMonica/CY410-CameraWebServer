@@ -1,3 +1,4 @@
+#include "sensor.h"
 // Copyright 2015-2016 Espressif Systems (Shanghai) PTE LTD
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -539,7 +540,13 @@ static esp_err_t cmd_handler(httpd_req_t *req){
     int res = 0;
 
     if(!strcmp(variable, "framesize")) {
-        if(s->pixformat == PIXFORMAT_JPEG) res = s->set_framesize(s, (framesize_t)val);
+        // Require JPG format and a value that is either 0 or 3 <= x <= 10 (Supported picture formats for this assignment)
+        if(s->pixformat == PIXFORMAT_JPEG && (val == 0 || (val >= 3 && val <= 10))) {
+            res = s->set_framesize(s, (framesize_t)val);
+        } else {
+            // Return 404 on fail
+            return httpd_resp_send_404(req);
+        }
     }
     else if(!strcmp(variable, "quality")) res = s->set_quality(s, val);
     else if(!strcmp(variable, "contrast")) res = s->set_contrast(s, val);
