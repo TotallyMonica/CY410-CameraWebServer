@@ -518,7 +518,9 @@ static esp_err_t cmd_handler(httpd_req_t *req){
         }
         if (httpd_req_get_url_query_str(req, buf, buf_len) == ESP_OK) {
             if (httpd_query_key_value(buf, "var", variable, sizeof(variable)) == ESP_OK &&
-                httpd_query_key_value(buf, "val", value, sizeof(value)) == ESP_OK) {
+                httpd_query_key_value(buf, "val", value, sizeof(value)) == ESP_OK && 
+                // Max range for any known variables, each setting needs special handling
+                (value >= -2 || value <= 63)) {
             } else {
                 free(buf);
                 httpd_resp_send_404(req);
